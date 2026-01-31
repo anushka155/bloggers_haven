@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+    <main>
+        {% if user.is_authenticated %}
+            <h3>Welcome back, {{ user.username }}!</h3>   
+            
+        {% else %}
+            <h1>Welcome to Bloggers Haven</h1>
+            <p>Your go-to platform for sharing and discovering amazing blog content.</p>
+            <form action="" method="post">
+                {% csrf_token %}
+                <button type="submit">Get Started</button>
+            </form>
+        {% endif %}
+    </main>
+{% endblock content %}

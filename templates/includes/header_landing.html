@@ -1,0 +1,14 @@
+<nav class="navbar">
+        <div class="nav-logo">
+            <h1>Bloggers Haven</h1>
+        </div>
+        <ul>
+            <li><a href="create.html">Create Blog</a></li>
+            <li>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Sign in</button>
+                </form>
+            </li>
+        </ul>
+    </nav>

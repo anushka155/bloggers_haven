@@ -1,0 +1,29 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bloggers Haven</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script type="text/javascript" src="{% static 'js/main.js' %}" defer></script>
+  </head>
+  <body class="{% if user.is_authenticated %}dashboard-bg{% else %}landing-bg{% endif %}">
+    <header>
+      {% if user.is_authenticated %} 
+        {% include "includes/header_dashboard.html"%} 
+      {% else %} 
+        {% include "includes/header_landing.html" %} 
+      {% endif %}
+    </header>
+
+    <main>{% block content %} {% endblock content %}</main>
+
+    <footer>{% include "includes/footer.html" %}</footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>
+
+

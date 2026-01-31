@@ -1,0 +1,244 @@
+@font-face {
+    font-family: 'Raleway'; 
+    src: url('../fonts/Raleway-Regular.ttf') format('truetype');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Raleway', sans-serif;
+}
+
+body {
+    width: 100%;
+    overflow-x: hidden;
+    background-image: url(../images/gemini.png);
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+nav {
+   display: flex; 
+   justify-content: space-between;
+   align-items: center;
+   background: linear-gradient(to bottom, #e3e3f9, #e9e6e3);
+   padding: 15px 30px;
+   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+   position: fixed;
+   width: 100%;
+   top: 0;
+   z-index: 1000;
+}
+
+.navbar .nav-logo h1 {
+    color: #4B0082;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.navbar ul li {
+    margin: 0 15px;
+}   
+
+.navbar ul li form button {
+    background-color: #4B0082;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+
+.navbar a{
+    text-decoration: none;
+    font-weight: bold;
+    color: #4B0082;
+}
+
+
+.navbar form{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+
+.search{
+    width: max-content;
+    display: flex;
+    align-items: center;
+    padding: 14px;
+    border-radius: 28px;
+    background-color: white;
+    transition: box-shadow 0.3s;
+}
+
+.search:focus-within{
+    box-shadow: 0 0 5px rgba(201, 160, 220, 1);
+}
+
+.search input{
+    font-size: 16px;
+    margin-left: 10px;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+.search-input::placeholder,
+.search svg{
+    color: #aaa;
+}
+
+
+.write a{
+    color: #848482;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.write a button{
+    color: inherit;
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
+}
+
+.write a:hover{
+    color: #555555;
+}
+.write a button:hover{
+    font-weight: bold;
+}
+
+.write a svg{
+    fill: currentColor;
+    pointer-events: none;
+}
+
+.landing-bg {
+    background-image: url('../images/gemini.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.landing-bg .navbar ul li a:hover{
+    color: #9400D3;
+}
+
+.landing-bg .navbar ul li form button:hover {
+    background-color: #9400D3;
+}
+
+.dashboard-bg {
+    background-image: none;
+    background-color: white;
+}
+
+
+.theme-switch{
+    height: 50px;
+    width: 50px;
+    padding: 0;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #e3e3f9, #e9e6e3);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.theme-switch svg{
+    stroke: #C9A0DC;
+    border: none;
+    outline: none;
+    fill: #C9A0DC;
+}
+
+.theme-switch svg:last-child{
+    display: none;
+}
+
+.darkmode .theme-switch svg:first-child{
+    display: none;
+}
+
+.darkmode .theme-switch svg:last-child{
+    display: block;
+}
+
+main {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    padding: 50px 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+main h1{
+    font-size: 4rem;
+    color: #4B0082;
+    margin-bottom: 20px;
+}
+
+main h3{
+    font-size: 1rem;
+    text-align: left;
+}
+
+main p {
+    font-size: 1.5rem;
+    color: #333333;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+main form button {
+    background-color: #D8BFD8;
+    color: #ffffff;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+main form button:hover {
+    background-color: #C9A0DC;
+}
+
+footer {
+    padding: 20px 0;        
+    text-align: center;
+    background: #e9e6e3; 
+    width: 100%;
+}
+
+footer hr {
+    width: 80%;             
+    margin: 10px auto;      
+}
+
+footer a {
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: #4B0082;
+    font-weight: bold;
+}
