@@ -1,16 +1,55 @@
-{% extends "base.html" %}
-{% block content %}
-    <main>
-        {% if user.is_authenticated %}
-            <h3>Welcome back, {{ user.username }}!</h3>   
-            
-        {% else %}
-            <h1>Welcome to Bloggers Haven</h1>
-            <p>Your go-to platform for sharing and discovering amazing blog content.</p>
-            <form action="" method="post">
-                {% csrf_token %}
-                <button type="submit">Get Started</button>
-            </form>
-        {% endif %}
-    </main>
+{% extends "base.html" %} {% load static %} {% block content %}
+<main>
+  {% if user.is_authenticated %}
+  <h3>Welcome back, {{ user.username }}!</h3>
+
+  {% else %}
+  <h1>Welcome to Bloggers Haven</h1>
+  <p>Your go-to platform for sharing and discovering amazing blog content.</p>
+  <form action="" method="post">
+    {% csrf_token %}
+    <button type="submit">Get Started</button>
+  </form>
+  <div class="container">
+    <div class="box box-1">
+      <img
+        src="{% static 'images/stories.jpg' %}"
+        alt="Stories Worth Sharing"
+      />
+      <h2>Stories Worth Sharing</h2>
+      <p>Read thoughts, experiences, and ideas that connect people.</p>
+    </div>
+    <div class="box box-2">
+      <img src="{% static 'images/community.jpg' %}" alt="Join Our Community" />
+      <h2>Join Our Community</h2>
+      <p>Sign up today and start your blogging journey with us!</p>
+    </div>
+    <div class="box box-3">
+      <img
+        src="{% static 'images/creativity.jpg' %}"
+        alt="Art & Creative Expression"
+      />
+      <h2>Art & Creative Expression</h2>
+      <p>
+        Celebrate visual art, design, and the stories behind creative minds.
+      </p>
+    </div>
+    <div class="box box-4">
+      <img src="{% static 'images/code.jpg' %}" alt="Code & Build" />
+      <h2>Code & Build</h2>
+      <p>Explore programming, tools, and projects for curious developers.</p>
+    </div>
+    <div class="box box-5">
+      <img src="{% static 'images/food.jpg' %}" alt="Explore World Cuisines" />
+      <h2>Explore World Cuisines</h2>
+      <p>Discover flavors, recipes, and food cultures from around the globe.</p>
+    </div>
+    <div class="box box-6">
+      <img src="{% static 'images/book.jpg' %}" alt="Read. Imagine. Escape." />
+      <h2>Read. Imagine. Escape.</h2>
+      <p>Travel through fiction, fantasy, and unforgettable characters.</p>
+    </div>
+  </div>
+  {% endif %}
+</main>
 {% endblock content %}
