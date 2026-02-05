@@ -3,6 +3,24 @@
   {% if user.is_authenticated %}
   <h3>Welcome back, {{ user.username }}!</h3>
 
+  <div class="article-section">
+    {% for article in articles %}
+    <a href="{% url 'article' article.id %}" class="article-link">
+      <div class="article-card">
+        {% if article.image %}
+          <img src="{{ article.image.url }}" alt="{{ article.title }}" />
+        {% endif %}
+        <div class="article-details">
+          <h2>{{ article.title }}</h2>
+          <p class="author">By {{ article.author }}</p>
+          <div class="article-preview">
+            {{ article.content|safe|truncatewords:20 }}
+          </div>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
   {% else %}
   <h1>Welcome to Bloggers Haven</h1>
   <p>Your go-to platform for sharing and discovering amazing blog content.</p>
@@ -11,6 +29,7 @@
     <button type="submit">Get Started</button>
   </form>
   <div class="container">
+    {% for category in categories %}
     <div class="box box-1">
       <img
         src="{% static 'images/stories.jpg' %}"
@@ -19,11 +38,13 @@
       <h2>Stories Worth Sharing</h2>
       <p>Read thoughts, experiences, and ideas that connect people.</p>
     </div>
+
     <div class="box box-2">
       <img src="{% static 'images/community.jpg' %}" alt="Join Our Community" />
       <h2>Join Our Community</h2>
       <p>Sign up today and start your blogging journey with us!</p>
     </div>
+
     <div class="box box-3">
       <img
         src="{% static 'images/creativity.jpg' %}"
@@ -49,6 +70,7 @@
       <h2>Read. Imagine. Escape.</h2>
       <p>Travel through fiction, fantasy, and unforgettable characters.</p>
     </div>
+    {% endfor %}
   </div>
   {% endif %}
 </main>

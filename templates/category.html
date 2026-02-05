@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<main>
+    <h2>Category: {{ category.name }}</h2>
+    <div class="article-container">
+        {% for article in articles %}
+        <div class="article-card">
+        <h2><a href="{% url 'article' article.id %}">{{ article.title }}</a></h2>
+        <p>by {{ article.author.username }} on {{ article.created_at|date:"F j, Y" }}</p>
+        <p>{{ article.excerpt }}</p>
+        <a href="{% url 'article' article.id %}">Read More</a>
+        </div>
+        {% empty %}
+        <p>No posts available in this category.</p>
+        {% endfor %}
+    </div>
+</main>
+
+{% endblock content %}
