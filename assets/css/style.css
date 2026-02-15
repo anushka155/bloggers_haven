@@ -1,4 +1,5 @@
 :root{
+    --nav-height: 80px;
     --primary-color: #4B0082;
     --primary-hover: #9400D3;
     --btn-accent-bg: #D8BFD8;
@@ -12,6 +13,7 @@
     --search-bg: #FFFFFF;
     --color-p: #333333;
     --footer-bg: #e9e6e3;
+    --hover-main: #f4f4f4;
 }
 
 body.darkmode {
@@ -26,6 +28,7 @@ body.darkmode {
     --color-p: #dddddd;
     --footer-bg: #242124;
     --bg-color: #1B1B1B;
+    --hover-main: #333333;
 }
 
 body.darkmode.landing-bg {
@@ -60,11 +63,14 @@ nav {
    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
    position: fixed;
    width: 100%;
+   height: var(--nav-height);
    top: 0;
    z-index: 1000;
 }
 
-.navbar .nav-logo h1 {
+.navbar .nav-logo a {
+    font-size: 2rem;
+    font-weight: bold;
     color: var(--primary-color);
 }
 
@@ -99,6 +105,95 @@ nav {
     display: flex;
     align-items: center;
     gap: 20px;
+}
+
+.nav-right{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-left{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.menu-toggle{
+    border: none;
+    outline: none;
+    align-items: center;
+    background: none;
+    color: var(--primary-color);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+.sidebar {
+  position: fixed;
+  top: var(--nav-height); 
+  transform: translateX(-240px);
+  transition: transform 0.3s ease;
+  width: 240px;
+  height: 100%;
+  background: var(--bg-color);
+  border-right: 1px solid var(--hover-main);
+  padding-top: 20px;
+  z-index: 999;
+}
+
+.sidebar.active {
+  transform: translateX(0);
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  margin: 8px 0;
+}
+
+.sidebar-menu a {
+  display: flex;
+  gap: 10px;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: var(--color-text);
+  font-size: 15px;
+  border-radius: 8px;
+}
+
+.sidebar-menu a:hover {
+  background: var(--hover-main);
+}
+
+
+@media (max-width: 900px) {
+
+  body.sidebar-open main {
+    margin-left: 0;
+  }
+
+  body.sidebar-open nav {
+    margin-left: 0;
+  }
+
+  .sidebar {
+    box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+  }
 }
 
 
@@ -216,6 +311,10 @@ nav {
     display: block;
 }
 
+.profile{
+    position: relative;
+}
+
 .profile-dropdown{
     display: none;
     position: absolute;
@@ -224,68 +323,57 @@ nav {
     background-color: var(--nav-bg);
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    display: none;
     flex-direction: column;
     z-index: 1001;
 }
 
-.profile-dropdown.show{
-    display: flex;
-}
-
-.profile-dropdown a{
-    padding: 10px 20px;
-    text-decoration: none;
-    color: var(--primary-color);
-}
-
-.profile-dropdown a:hover{
-    background-color: var();
-    color: var(--bg-color);
+.profile-dropdown.active{
+    display: flex !important;
 }
 
 .profile-btn{
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    border: 2px solid var(--primary-color);
+    border: none;
     padding: 0;
-    overflow: hidden;
     cursor: pointer;
-    background: none;
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.3s ease;
 }
 
-.user-photo{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+.profile-btn svg{
+    width: 24px;
+    height: 24px;
+    fill: var(--primary-color);
+    transition: fill 0.3s ease;
 }
 
 main {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    padding: 50px 20px;
-    margin-left: 10px;
-    margin-right: 10px;
+    padding: var(--nav-height) 20px 20px; 
+    margin: 0;
     text-align: center;
 }
+
 
 main h1{
     font-size: 4rem;
     color: var(--primary-color);
-    margin-top: 50px;
-    margin-bottom: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 main h3{
     font-size: 1rem;
     text-align: left;
-    margin-top: 20px;
+    margin-top: 0px;
+    margin-bottom: 15px;
     color: var(--color-text);
 }
 
@@ -379,24 +467,65 @@ main form button:hover {
 
 .article-card{
     display: flex;
+    align-items: stretch;
     border-radius: 8px;
     overflow: hidden;
     background: var(--bg-color);
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    border: 8px solid rgba(255, 255, 255, 0.2);
+    border: 2.5px solid rgba(255, 255, 255, 0.2);
+    min-height: 220px;
+    width: 100%;
 }
 
 .article-card img {
     width: 300px; 
-    height: auto;
     object-fit: cover;
+    height: 100%;
+    border: 2.5px solid rgba(255, 255, 255, 0.2);
+}
+
+.card-footer {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: var(--color-text);
+}
+
+.likes, .comments{
+    color: var(--color-p);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--hover-main);
+    background-color: var(--bg-color);
+    color: var(--color-text);
+    margin-bottom: 10px;
+    resize: vertical;
+    font-size: 1rem;
+}
+
+.comment-form label {
+    display: none;
 }
 
 .article-details {
-    padding: 20px;
+    padding: 20px 30px;
     display: flex;
+    flex: 1;
     flex-direction: column;
     justify-content: center;
+    text-align: left;
 }
 
 .article-details h2 {
@@ -404,15 +533,39 @@ main form button:hover {
     color: var(--color-text);
 }
 
+.article-details p {
+    font-size: 15px;
+    color: var(--color-p);
+}
+
+.article-preview{
+    font-size: 15px;
+}
+
 .article-link {
     text-decoration: none;
     color: inherit;
+    width: 100%;
+    display: block;
 }
 
 .article-container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 10px 20px;
+}
+
+.article-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    margin-top: 5px;
+    color: var(--primary-color);
+}
+
+.article-container p.author, .article-container p.date {
+    font-size: 1rem;
+    color: var(--color-p);
+    margin-bottom: 5px;
 }
 
 .article-image {
@@ -421,11 +574,12 @@ main form button:hover {
     object-fit: cover;
     border-radius: 10px;
     margin-bottom: 20px;
+    margin-top: 10px;
 }
 
 .article-content {
     line-height: 1.6;  
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 footer {

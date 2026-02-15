@@ -15,6 +15,9 @@ class Article(models.Model):
 
     slug = models.SlugField(max_length=200, unique=True, blank=True)
 
+    def total_likes(self):
+        return self.likes.count()
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)

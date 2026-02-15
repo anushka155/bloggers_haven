@@ -14,7 +14,13 @@
           <h2>{{ article.title }}</h2>
           <p class="author">By {{ article.author }}</p>
           <div class="article-preview">
-            {{ article.content|safe|truncatewords:20 }}
+            {{ article.content|safe|truncatewords:40 }}
+          </div>
+
+          <div class="card-footer">
+            <span class="date">{{ article.published_date|date:"F j" }}</span>
+            <span class="likes">{{ article.total_likes }} {{ article.total_likes|pluralize:"like,likes" }}</span>
+            <span class="comments">{{ article.comments.count }} {{ article.comments.count|pluralize:"comment,comments" }}</span>
           </div>
         </div>
       </div>

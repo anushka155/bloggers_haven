@@ -11,6 +11,43 @@
     <div class="article-content">
         {{ article.content|safe }}
     </div>
+    <div class="article-actions">
+        <form action="{% url 'like_article' article.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="like-button">
+                {% if liked %}
+                    {{ total_likes }} Unlike
+                {% else %}
+                    {{ total_likes }} Like
+                {% endif %}
+            </button>
+            <span>{{ total_likes }} {{ total_likes|pluralize:"like,likes" }}</span>
+        </form>
+    </div>
+
+    <hr>
+
+    <div class="comments-section">
+        <h2>Comments ({{ comments.count }})</h2>
+        {% for comment in comments %}
+            <div class="comment">
+                <p class="comment-author">{{ comment.author }}</p>
+                <p class="comment-date">{{ comment.created_date|date:"F j, Y, g:i a" }}</p>
+                <p class="comment-content">{{ comment.content }}</p>
+            </div>
+        {% empty %}
+            <p>No comments yet. Be the first to comment!</p>
+        {% endfor %}
+        {% if user.is_authenticated %}
+            <h3>Leave a Comment</h3>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Post Comment</button>
+            </form>
+        {% else %}
+            <p><a href="{% url 'login' %}">Log in</a> to leave a comment.</p>
+        {% endif %}
 </div>
 
 {% endblock content %}
