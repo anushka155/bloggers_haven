@@ -358,7 +358,6 @@ main {
     flex-direction: column;
     padding: var(--nav-height) 20px 20px; 
     margin: 0;
-    text-align: center;
 }
 
 
@@ -484,6 +483,25 @@ main form button:hover {
     border: 2.5px solid rgba(255, 255, 255, 0.2);
 }
 
+.article-actions {
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.like-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.like-count {
+    font-size: 0.9rem;
+    color: var(--color-p);
+}
+
+
 .card-footer {
     display: flex;
     gap: 15px;
@@ -492,7 +510,7 @@ main form button:hover {
     color: var(--color-text);
 }
 
-.likes, .comments{
+.likes{
     color: var(--color-p);
     border: none;
     padding: 8px 20px;
@@ -502,6 +520,88 @@ main form button:hover {
     transition: 0.3s;
 }
 
+.like-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    fill: var(--primary-color) !important;
+    object-fit: contain;
+    transition: fill 0.3s ease;
+}
+
+.btn-pill {
+    border: none;
+    cursor: pointer;
+}
+
+#like-button.btn-pill {
+    padding: 5px;
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+#like-count{
+    color: var(--color-text);
+}
+
+main form button.btn-pill:hover {
+    background-color: transparent !important;
+}
+
+
+.comment-form .btn-pill {
+    background-color: var(--btn-accent-bg); 
+    padding: 12px 25px;
+    border-radius: 30px;
+}
+
+.comment-form .btn-pill:hover {
+    background-color: transparent !important; 
+}
+
+.comment {
+    background: var(--hover-main);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 20px;
+}
+
+
+.comments-section {
+    margin-top: 40px;
+}
+
+.comments-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+
+.comment-author {
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.comment-date {
+    font-size: 0.8rem;
+    color: var(--color-p);
+    margin-bottom: 8px;
+}
+
+.comment-content {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--color-text);
+}
 
 .comment-form textarea {
     width: 100%;
@@ -518,6 +618,7 @@ main form button:hover {
 .comment-form label {
     display: none;
 }
+
 
 .article-details {
     padding: 20px 30px;
@@ -553,6 +654,7 @@ main form button:hover {
     max-width: 800px;
     margin: 0 auto;
     padding: 10px 20px;
+    text-align: left;
 }
 
 .article-container h1 {
@@ -581,6 +683,8 @@ main form button:hover {
     line-height: 1.6;  
     font-size: 1rem;
 }
+
+
 
 footer {
     padding: 20px 0;        

@@ -26,22 +26,22 @@ themeSwitch.addEventListener('click', function() {
 
 // Profile Dropdown Toggle
 
-// Clean everything else out and try this exact block
 window.onload = function() {
     const btn = document.getElementById('profile-btn');
     const menu = document.getElementById('profile-dropdown');
 
     if (btn && menu) {
         btn.onclick = function(e) {
-            e.stopPropagation(); // Stops the click from hitting the window
-            console.log("Button clicked!"); // Look for this in the Console!
+            e.stopPropagation(); 
+            console.log("Button clicked!"); 
             menu.classList.toggle('active');
         };
 
-        window.onclick = function() {
-            console.log("Window clicked - closing menu");
-            menu.classList.remove('active');
-        };
+        window.addEventListener("click", function() {
+        console.log("Window clicked - closing menu");
+        menu.classList.remove('active');
+        });
+
     } else {
         console.log("Error: Could not find button or menu IDs");
     }
@@ -56,3 +56,42 @@ menuToggle.addEventListener("click", () => {
   sidebar.classList.toggle("active");
   document.body.classList.toggle("sidebar-open");
 });
+
+
+// Like Button AJAX
+
+document.addEventListener('DOMContentLoaded', function() {
+    const button = document.getElementById('like-button');
+
+    if (!button) return;
+
+    button.addEventListener('click', function() {
+
+        fetch(button.dataset.url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            location.reload();
+        });
+
+    });
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}

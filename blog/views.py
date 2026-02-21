@@ -1,14 +1,19 @@
 from django.shortcuts import render, redirect
 from .models import Article, Category, Comment
 from .forms import CommentForm
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
+
 def home(request):
     context = {
         'articles': Article.objects.all(),
         'categories': Category.objects.all(),
     }
     return render(request, 'index.html', context)
+
 
 def category(request, category_id):
     category = Category.objects.get(id=category_id)
@@ -18,6 +23,7 @@ def category(request, category_id):
         'articles': articles,
     }
     return render(request, 'category.html', context)
+
 
 def article(request, article_id):
     article = Article.objects.get(id=article_id)
@@ -41,14 +47,38 @@ def article(request, article_id):
     }
     return render(request, 'article.html', context)
 
+
 def like_article(request, article_id):
+    print("LIKE VIEW HIT")
     if not request.user.is_authenticated:
-        return redirect('login')
+        print("USER NOT AUTHENTICATED")
+        return JsonResponse({'error': 'login_required'}, status=403)
     article = Article.objects.get(id=article_id)
-    if article.likes.filter(id=request.user.id).exists():
+    already_liked = article.likes.filter(id=request.user.id).exists()
+    print("Already liked before toggle:", already_liked)
+
+    if already_liked:
         article.likes.remove(request.user)
+        liked = False
+        print("Removed like")
     else:
         article.likes.add(request.user)
-    return redirect('article', article_id=article.id)
+        liked = True
+        print("Added like")
+
+    print("Total likes now:", article.likes.count())
+    return JsonResponse({'liked': liked, 'total_likes': article.likes.count()})
 
 
+def add_comment(request, article_id):
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'login_required'}, status=403)
+    article = Article.objects.get(id=article_id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.article = article
+            comment.author = request.user
+            comment.save()
+    return JsonResponse({'success': True})

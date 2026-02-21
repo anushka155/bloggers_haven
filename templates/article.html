@@ -1,53 +1,86 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <div class="article-container">
-    <h1>{{ article.title }}</h1>
-    <p class="author">By {{ article.author }}</p>
-    <p class="date">Posted on {{ article.published_date|date:"F j, Y" }}</p>
-    {% if article.image %}
-        <img src="{{ article.image.url }}" alt="{{ article.title }}" class="article-image" />
-    {% endif %}
-    <div class="article-content">
-        {{ article.content|safe }}
-    </div>
-    <div class="article-actions">
-        <form action="{% url 'like_article' article.id %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="like-button">
-                {% if liked %}
-                    {{ total_likes }} Unlike
-                {% else %}
-                    {{ total_likes }} Like
-                {% endif %}
-            </button>
-            <span>{{ total_likes }} {{ total_likes|pluralize:"like,likes" }}</span>
-        </form>
-    </div>
-
-    <hr>
-
-    <div class="comments-section">
-        <h2>Comments ({{ comments.count }})</h2>
-        {% for comment in comments %}
-            <div class="comment">
-                <p class="comment-author">{{ comment.author }}</p>
-                <p class="comment-date">{{ comment.created_date|date:"F j, Y, g:i a" }}</p>
-                <p class="comment-content">{{ comment.content }}</p>
-            </div>
-        {% empty %}
-            <p>No comments yet. Be the first to comment!</p>
-        {% endfor %}
-        {% if user.is_authenticated %}
-            <h3>Leave a Comment</h3>
-            <form action="" method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Post Comment</button>
-            </form>
+  <h1>{{ article.title }}</h1>
+  <p class="author">By {{ article.author }}</p>
+  <p class="date">Posted on {{ article.published_date|date:"F j, Y" }}</p>
+  {% if article.image %}
+  <img
+    src="{{ article.image.url }}"
+    alt="{{ article.title }}"
+    class="article-image"
+  />
+  {% endif %}
+  <div class="article-content">{{ article.content|safe }}</div>
+  <div class="article-actions">
+    <button
+      type="button"
+      id="like-button"
+      data-url="{% url 'like_article' article.id %}"
+      class="btn-pill"
+    >
+      <span id="like-icon-container">
+        {% if liked %}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          class="icon"
+        >
+          <path
+            d="M720-120H320v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h218q32 0 56 24t24 56v80q0 7-1.5 15t-4.5 15L794-168q-9 20-30 34t-44 14ZM240-640v520H80v-520h160Z"
+          />
+        </svg>
         {% else %}
-            <p><a href="{% url 'login' %}">Log in</a> to leave a comment.</p>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          class="icon"
+        >
+          <path
+            d="M720-120H280v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h258q32 0 56 24t24 56v80q0 7-2 15t-4 15L794-168q-9 20-30 34t-44 14Zm-360-80h360l120-280v-80H480l54-220-174 174v406Zm0-406v406-406Zm-80-34v80H160v360h120v80H80v-520h200Z"
+          />
+        </svg>
         {% endif %}
-</div>
+      </span>
+    </button>
 
-{% endblock content %}
+    <span id="like-count">
+      {{ total_likes }} {{ total_likes|pluralize:"like,likes" }}
+    </span>
+  </div>
+
+  <hr />
+
+  <div class="comments-section">
+    <h2>Comments ({{ comments.count }})</h2>
+    {% for comment in comments %}
+    <div class="comment">
+      <p class="comment-author">{{ comment.author }}</p>
+      <p class="comment-date">{{ comment.created_at|date:"F j, Y, g:i a" }}</p>
+      <p class="comment-content">{{ comment.content }}</p>
+    </div>
+    {% empty %}
+    <p>No comments yet. Be the first to comment!</p>
+    {% endfor %} {% if user.is_authenticated %}
+    <h3>Leave a Comment</h3>
+    <form
+      action="{% url 'add_comment' article.id %}"
+      method="post"
+      class="comment-form"
+    >
+      {% csrf_token %}
+
+      <div class="comment-input-wrapper">{{ form.content }}</div>
+
+      <button type="submit" class="btn-pill">Post Comment</button>
+    </form>
+    {% else %}
+    <p><a href="{% url 'login' %}">Log in</a> to leave a comment.</p>
+    {% endif %}
+  </div>
+
+  {% endblock content %}
+</div>
