@@ -3,12 +3,13 @@
     <a href="{% url 'home' %}">Bloggers Haven</a>
   </div>
   <ul>
-    <li><a href="create.html">Create Blog</a></li>
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'create_article' %}">Create Blog</a></li>
+    {% else %}
+    <li><a href="{% url 'user_login' %}">Create Blog</a></li>
+    {% endif %}
     <li>
-      <form action="" method="post">
-        {% csrf_token %}
-        <button type="submit">Sign in</button>
-      </form>
+      <a href="{% url 'user_login' %}">Sign In</a>
     </li>
     <li>
       <div class="theme-switch">

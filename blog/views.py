@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from .models import Article, Category, Comment
-from .forms import CommentForm
+from .forms import ArticleForm, CommentForm
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+
 
 # Create your views here.
-
-
 def home(request):
     context = {
         'articles': Article.objects.all(),
@@ -82,3 +83,48 @@ def add_comment(request, article_id):
             comment.author = request.user
             comment.save()
     return JsonResponse({'success': True})
+
+@login_required
+def create_article(request):
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, request.FILES)
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.author = request.user
+            article.save()
+            return redirect('article', article_id=article.id)
+    else:
+        form = ArticleForm()
+    return render(request, 'create_article.html', {'form': form})
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})
+
+def user_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                url = request.GET.get('next', '/')
+                return redirect(url)
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
+
+def user_logout(request):
+    if request.method == 'POST':
+        logout(request)
+        return redirect('user_login')

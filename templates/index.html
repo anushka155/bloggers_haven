@@ -30,12 +30,11 @@
   {% else %}
   <h1>Welcome to Bloggers Haven</h1>
   <p>Your go-to platform for sharing and discovering amazing blog content.</p>
-  <form action="" method="post">
+  <form action="{% url 'signup' %}" method="post">
     {% csrf_token %}
     <button type="submit">Get Started</button>
   </form>
   <div class="container">
-    {% for category in categories %}
     <div class="box box-1">
       <img
         src="{% static 'images/stories.jpg' %}"
@@ -76,7 +75,6 @@
       <h2>Read. Imagine. Escape.</h2>
       <p>Travel through fiction, fantasy, and unforgettable characters.</p>
     </div>
-    {% endfor %}
   </div>
   {% endif %}
 </main>
