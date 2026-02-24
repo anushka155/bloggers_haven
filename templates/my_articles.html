@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block content %}
+<div class="article-section">
+  {% for article in articles %}
+  <a href="{% url 'article' article.id %}" class="article-link">
+    <div class="article-card">
+      {% if article.image %}
+      <img src="{{ article.image.url }}" alt="{{ article.title }}" />
+      {% endif %}
+      <div class="article-details">
+        <h2>{{ article.title }}</h2>
+        <p class="author">By {{ article.author }}</p>
+        <div class="article-preview">
+          {{ article.content|safe|truncatewords:40 }}
+        </div>
+
+        <div class="card-footer">
+          <span class="date">{{ article.published_date|date:"F j" }}</span>
+          <span class="likes">{{ article.likes.count }} Likes</span>
+          <span class="comments">{{ article.comments.count }} Comments</span>
+        </div>
+      </div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock content %}

@@ -1,5 +1,6 @@
 from django import forms
 from .models import Article, Comment
+from tinymce.widgets import TinyMCE
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -24,7 +25,7 @@ class ArticleForm(forms.ModelForm):
                 'class': 'title-input',
                 'placeholder': 'Title'
             }),
-            'content': forms.Textarea(attrs={
+            'content': TinyMCE(attrs={
                 'class': 'content-textarea',
                 'placeholder': 'Tell your story...',
                 'rows': 15

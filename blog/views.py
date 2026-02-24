@@ -9,9 +9,11 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 # Create your views here.
 def home(request):
+    articles = Article.objects.all()
+    categories = Category.objects.all()
     context = {
-        'articles': Article.objects.all(),
-        'categories': Category.objects.all(),
+        'articles': articles,
+        'categories': categories,
     }
     return render(request, 'index.html', context)
 
@@ -19,9 +21,11 @@ def home(request):
 def category(request, category_id):
     category = Category.objects.get(id=category_id)
     articles = Article.objects.filter(category=category)
+    categories = Category.objects.all()
     context = {
         'category': category,
         'articles': articles,
+        'categories': categories,
     }
     return render(request, 'category.html', context)
 
@@ -29,6 +33,13 @@ def category(request, category_id):
 def article(request, article_id):
     article = Article.objects.get(id=article_id)
     comments = Comment.objects.filter(article=article)
+
+    is_author = False
+    if request.user.is_authenticated and article.author:
+        try:
+            is_author = (request.user.id == article.author.id)
+        except AttributeError:
+            is_author = (request.user.username == str(article.author))
 
     form = CommentForm()
     if request.method == 'POST':
@@ -45,6 +56,7 @@ def article(request, article_id):
         'form': form,
         'total_likes': article.likes.count(),
         'liked': article.likes.filter(id=request.user.id).exists() if request.user.is_authenticated else False,
+        'is_author': is_author,
     }
     return render(request, 'article.html', context)
 
@@ -128,3 +140,35 @@ def user_logout(request):
     if request.method == 'POST':
         logout(request)
         return redirect('user_login')
+
+@login_required
+def update_article(request, article_id):
+    article = Article.objects.get(id=article_id)
+    if request.user != article.author:
+        return redirect('article', article_id=article.id)
+
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, request.FILES, instance=article)
+        if form.is_valid():
+            form.save()
+            return redirect('article', article_id=article.id)
+    else:
+        form = ArticleForm(instance=article)
+    return render(request, 'update_article.html', {'form': form, 'article': article})
+
+@login_required
+def delete_article(request, article_id):
+    article = Article.objects.get(id=article_id)
+    if request.user != article.author:
+        return redirect('article', article_id=article.id)
+
+    if request.method == 'POST':
+        article.delete()
+        return redirect('home')
+    return render(request, 'confirm_delete.html', {'article': article})
+
+
+@login_required
+def my_articles(request):
+    articles = Article.objects.filter(author=request.user).order_by('-published_date')
+    return render(request, 'my_articles.html', {'articles': articles})

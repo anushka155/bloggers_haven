@@ -3,7 +3,13 @@
   <h1>{{ article.title }}</h1>
   <p class="author">By {{ article.author }}</p>
   <p class="date">Posted on {{ article.published_date|date:"F j, Y" }}</p>
-  {% if article.image %}
+
+  {% if is_author %}
+  <div class="article-actions">
+    <a href="{% url 'update_article' article.id %}" class="btn-pill">Edit</a>
+    <a href="{% url 'delete_article' article.id %}" class="btn-pill delete-btn">Delete</a>
+  </div>
+  {% endif %} {% if article.image %}
   <img
     src="{{ article.image.url }}"
     alt="{{ article.title }}"
@@ -81,6 +87,5 @@
     <p><a href="{% url 'login' %}">Log in</a> to leave a comment.</p>
     {% endif %}
   </div>
-
-  {% endblock content %}
 </div>
+{% endblock content %}

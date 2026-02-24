@@ -95,3 +95,27 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+
+// Category Dropdown Toggle
+
+document.addEventListener('DOMContentLoaded', function() {
+    const categoriesBtn = document.getElementById('categories-btn');
+    const categoryDropdown = document.getElementById('category-dropdown');
+    const arrowIcon = document.getElementById('arrow-icon');    
+
+    if (categoriesBtn && categoryDropdown && arrowIcon) {
+        categoriesBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const isHidden = categoryDropdown.style.display === 'none' || categoryDropdown.style.display === '';
+            
+            categoryDropdown.style.display = isHidden ? 'block' : 'none';
+            
+            if (isHidden) {
+                arrowIcon.classList.add('up');
+            } else {
+                arrowIcon.classList.remove('up');
+            }
+        });
+    }
+});

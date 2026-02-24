@@ -130,9 +130,22 @@
   <ul class="sidebar-menu">
     <li><a href="/">Home</a></li>
     <li><a href="#">Trending</a></li>
-    <li><a href="#">Categories</a></li>
+    <li>
+      <a href="#" id="categories-btn"
+        >Categories
+        <span class="arrow-icon" id="arrow-icon"></span>
+      </a>
+
+      <ul class="category-dropdown" id="category-dropdown">
+        {% for category in categories %}
+        <li>
+          <a href="{% url 'category' category.id %}">{{ category.name }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </li>
     <hr />
-    <li><a href="#">My Profile</a></li>
-    <li><a href="#">Settings</a></li>
+    <li><a href="{% url 'my_articles' %}">My Articles</a></li>
+    <li><a href="">Settings</a></li>
   </ul>
 </aside>

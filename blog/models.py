@@ -6,7 +6,7 @@ from django.utils.text import slugify
 # Create your models here.
 class Article(models.Model):
     title = models.CharField(max_length=200)
-    author = models.CharField(max_length=100)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     image = models.ImageField(upload_to='article_images/')
     content = HTMLField()
     published_date = models.DateTimeField(auto_now_add=True)

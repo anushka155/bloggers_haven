@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 from .views import *
 
 urlpatterns = [
@@ -11,4 +11,8 @@ urlpatterns = [
     path('signup/', signup, name='signup'),
     path('login/', user_login, name='user_login'),
     path('logout/', user_logout, name='user_logout'),
+    path('article/<int:article_id>/delete/', delete_article, name='delete_article'),
+    path('article/<int:article_id>/update/', update_article, name='update_article'),
+    path('tinymce/', include('tinymce.urls')),
+    path('my-articles/', my_articles, name='my_articles'),
 ]
