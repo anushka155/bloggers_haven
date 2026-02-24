@@ -119,3 +119,43 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Comment Form AJAX
+
+// external JS file
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById("comment-form");
+    if (!form) return;
+
+    form.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const url = form.dataset.url; 
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": csrfToken
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const commentsSection = document.getElementById("comments-section");
+                const newComment = `
+                    <div class="comment">
+                        <p class="comment-author">${data.author}</p>
+                        <p class="comment-date">${data.created_date}</p>
+                        <p class="comment-content">${data.content}</p>
+                    </div>
+                `;
+                commentsSection.insertAdjacentHTML("beforeend", newComment);
+                form.reset();
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    });
+});

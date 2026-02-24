@@ -7,7 +7,9 @@
   {% if is_author %}
   <div class="article-actions">
     <a href="{% url 'update_article' article.id %}" class="btn-pill">Edit</a>
-    <a href="{% url 'delete_article' article.id %}" class="btn-pill delete-btn">Delete</a>
+    <a href="{% url 'delete_article' article.id %}" class="btn-pill delete-btn"
+      >Delete</a
+    >
   </div>
   {% endif %} {% if article.image %}
   <img
@@ -60,7 +62,7 @@
 
   <hr />
 
-  <div class="comments-section">
+  <div class="comments-section" id="comments-section">
     <h2>Comments ({{ comments.count }})</h2>
     {% for comment in comments %}
     <div class="comment">
@@ -73,14 +75,12 @@
     {% endfor %} {% if user.is_authenticated %}
     <h3>Leave a Comment</h3>
     <form
-      action="{% url 'add_comment' article.id %}"
-      method="post"
+      id="comment-form"
       class="comment-form"
+      data-url="{% url 'add_comment' article.id %}"
     >
       {% csrf_token %}
-
       <div class="comment-input-wrapper">{{ form.content }}</div>
-
       <button type="submit" class="btn-pill">Post Comment</button>
     </form>
     {% else %}
@@ -88,4 +88,5 @@
     {% endif %}
   </div>
 </div>
+
 {% endblock content %}

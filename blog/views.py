@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.shortcuts import render, redirect
 from .models import Article, Category, Comment
 from .forms import ArticleForm, CommentForm
@@ -84,17 +85,22 @@ def like_article(request, article_id):
 
 
 def add_comment(request, article_id):
-    if not request.user.is_authenticated:
-        return JsonResponse({'error': 'login_required'}, status=403)
-    article = Article.objects.get(id=article_id)
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.article = article
-            comment.author = request.user
-            comment.save()
-    return JsonResponse({'success': True})
+    content = request.POST.get("content")
+
+    comment = Comment.objects.create(
+        article_id=article_id,
+        author=request.user,
+        content=content,
+        created_at=timezone.now()
+    )
+
+    return JsonResponse({
+        "success": True,
+        "author": comment.author.username,
+        "content": comment.content,
+        "created_date": comment.created_at.strftime("%Y-%m-%d %H:%M")
+    })
+
 
 @login_required
 def create_article(request):
@@ -121,6 +127,7 @@ def signup(request):
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
+
 def user_login(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -136,10 +143,12 @@ def user_login(request):
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
 
+
 def user_logout(request):
     if request.method == 'POST':
         logout(request)
         return redirect('user_login')
+
 
 @login_required
 def update_article(request, article_id):
@@ -156,6 +165,7 @@ def update_article(request, article_id):
         form = ArticleForm(instance=article)
     return render(request, 'update_article.html', {'form': form, 'article': article})
 
+
 @login_required
 def delete_article(request, article_id):
     article = Article.objects.get(id=article_id)
@@ -170,5 +180,6 @@ def delete_article(request, article_id):
 
 @login_required
 def my_articles(request):
-    articles = Article.objects.filter(author=request.user).order_by('-published_date')
+    articles = Article.objects.filter(
+        author=request.user).order_by('-published_date')
     return render(request, 'my_articles.html', {'articles': articles})
