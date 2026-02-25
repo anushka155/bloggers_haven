@@ -75,6 +75,8 @@
     {% endfor %} {% if user.is_authenticated %}
     <h3>Leave a Comment</h3>
     <form
+      method="post"
+      action="."
       id="comment-form"
       class="comment-form"
       data-url="{% url 'add_comment' article.id %}"
