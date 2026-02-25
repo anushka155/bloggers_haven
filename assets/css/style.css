@@ -825,6 +825,10 @@ main form button.btn-pill:hover {
     background-color: var(--btn-accent-hover-bg) !important; 
 }
 
+.form-group label{
+    color: var(--color-text);
+}
+
 .auth-container {
     max-width: 420px;
     margin: 80px auto;
